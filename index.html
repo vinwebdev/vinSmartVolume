@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cubic Meter Calculator</title>
+
+  <style>
+    body {
+
+    font-family: Arial, sans-serif;
+    background: #f6f7fb;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* let content flow naturally */
+    align-items: center;
+    min-height: 100vh; /* ensures at least full viewport height */
+    padding: 20px;
+    margin: 0;
+        /*
+      font-family: Arial, sans-serif;
+      background: #f6f7fb;
+      display: flex;
+      flex-direction: column; /* ✅ stack header above container 
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      margin: 0;
+      */
+    }
+    /* ✅ Header container */
+    .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    
+    }
+
+    /* ✅ Logo styling */
+    .logo {
+    width: 70px;
+    height: auto;
+    border-radius: 8px;
+    margin-right: 10px;
+    }
+
+    /* ✅ Company name styling */
+    .company-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0 10px;
+    }
+
+    .container {
+      display: flex;
+      width: 1100px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(199, 13, 121, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+/***** LEFT PANEL *****/
+    .calculator {
+      flex: 0.5;
+      padding: 10px;
+      border-right: 2px solid #eee;
+      box-sizing: border-box;
+    }
+
+    .calculator h2 { font-size: 18px; text-align: center; margin-bottom: 10px; margin-top: 8px; }
+    .input-group { margin-bottom: 15px; }
+    label { font-weight: bold; }
+
+    select, input[type="number"], input[list] {
+      width: 60%;
+      padding: 10px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    #itemValue {
+      display: inline-block;
+      margin-left: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #0078ff;
+    }
+
+    /*************************************/
+/* --- Align labels and inputs horizontally --- */
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.input-group label {
+  flex: 0 0 40%;
+  font-weight: bold;
+  text-align: right;
+}
+
+.input-group input[list],
+.input-group input[type="number"],
+.input-group .value-box {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Make item value box consistent with inputs */
+.value-box {
+  background: #f9f9f9;
+  color: #0078ff;
+  font-weight: bold;
+}
+    /*************************************/
+ button {
+      width: 80%;
+      background-color: #0078ff;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    button:hover { background-color: #005fcc; }
+    .clear-btn { background-color: #d9534f; }
+    .clear-btn:hover { background-color: #b52b27; }
+    /* ✅ Center buttons horizontally */
+    .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+    }
+
+    /* Optional: make buttons same size and visually balanced */
+    .button-group button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    }
+
+    #computeBtn {
+    background-color: #007bff;
+    color: white;
+    }
+
+    .clear-btn {
+    background-color: #dc3545;
+    color: white;
+    }
+    /*************************************/
+/***** END LEFT PANEL *****/
+/***** RIGHT PANEL *****/
+    .results {
+      flex: 1;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+    }
+
+    .results h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      margin-bottom: 8px;
+    }
+
+    #totalVolume {
+      font-weight: bold;
+      color: #0a4ca0;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    #tableContainer {
+      flex: 1;
+      overflow-y: hidden;
+      max-height: 300px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+    }
+
+    th, td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    th {
+      background: #f1f1f1;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .highlight {
+      background: #dff0d8;
+      font-weight: bold;
+    }
+    /***** END RIGHT PANEL *****/
+/* ===== Responsive Media Queries ===== */
+
+/* Large desktop screens (>1200px) */
+@media (min-width: 1200px) {
+  .container {
+    width: 1100px;
+  }
+  .header {
+    width: 1100px;
+  }
+}
+
+/* Medium desktop / small laptop (992px - 1199px) */
+@media (max-width: 1199px) and (min-width: 992px) {
+  .container {
+    width: 900px;
+  }
+  .header {
+    width: 900px;
+  }
+}
+
+/* Tablet screens (768px - 991px) */
+@media (max-width: 991px) and (min-width: 768px) {
+  .container {
+    width: 700px;
+    flex-direction: column; /* stack left and right panels */
+  }
+  .calculator, .results {
+    flex: 1 1 100%;
+    border-right: none;
+    border-bottom: 2px solid #eee;
+    padding: 15px;
+  }
+  .header {
+    width: 700px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+  .input-group label {
+    flex: 0 0 40%;
+  }
+  select, input[type="number"], input[list], .value-box {
+    width: 70%;
+  }
+}
+
+/* Small tablets and large phones (576px - 767px) */
+/* Small screens (<768px) adjustments */
+/* Small screens */
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+    height: auto; /* let container grow with content */
+  }
+
+  .calculator, .results {
+    flex: 1 1 auto; /* let panels grow naturally */
+    border-right: none;
+    border-bottom: 2px solid #eee;
+    padding: 10px;
+  }
+
+  .button-group button { margin: 0px;}
+  .table-responsive {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: none; /* allow full table to show */
+  }
+
+  .table-responsive table {
+    min-width: 600px; /* ensure table columns don’t shrink too much */
+  }
+}
+
+/* Small phones (<576px) */
+@media (max-width: 575px) {
+  .container {
+    width: 100%;
+    flex-direction: column;
+  }
+  .calculator, .results {
+    flex: 1 1 100%;
+    border-right: none;
+    border-bottom: 2px solid #eee;
+    padding: 8px;
+  }
+  .header {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    padding: 8px 10px;
+  }
+  .logo {
+    width: 50px;
+  }
+  .company-name {
+    font-size: 1.2rem;
+  }
+  .input-group label {
+    flex: 0 0 50%;
+    font-size: 13px;
+  }
+  select, input[type="number"], input[list], .value-box {
+    width: 70%;
+    font-size: 13px;
+  }
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+  .button-group button {
+    width: 90%;
+  }
+}
+
+/* Make table scrollable on small screens */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto; /* horizontal scroll if needed */
+}
+
+.table-responsive table {
+  min-width: 600px; /* ensures table keeps its columns */
+}
+
+/* Optional: hide scrollbar for aesthetic on mobile (Webkit browsers) */
+.table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+  </style>
+</head>
+<!-- ✅ Searchable item name input -->
+<body>
+    <!-- ✅ Company Header -->
+    <div class="header">
+        <img src="/c:/vin/Project_Volume_Calulator1/ASL-Logo.png" alt="Company Logo" class="logo">
+        <h1 class="company-name">SmartVolume</h1>
+    </div>
+
+    <div class="container">
+        <!-- Left Side -->
+        <div class="calculator">
+    <h2>Calculator</h2>
+
+    <!-- ✅ Location dropdown added -->
+    <div class="input-group">
+        <label for="location">Location / Area:</label>
+        <input list="locationList" id="location" placeholder="Select or search location">
+        <datalist id="locationList">
+        <option value="Entrance">
+        <option value="Living Room">
+        <option value="Dining Room">
+        <option value="Kitchen">
+        <option value="Landing Area">
+        <option value="Bed Room 1">
+        <option value="Bed Room 2">
+        <option value="Bed Room 3">
+        <option value="Bed Room 4">
+        <option value="Maids Room">
+        <option value="Storage Room">
+        <option value="Garage">
+        <option value="Outdoor">
+        </datalist>
+    </div>
+
+    <div class="input-group">
+        <label for="itemName">Name of Item:</label>
+        <input list="itemList" id="itemName" placeholder="Search or select an item">
+        <datalist id="itemList">
+        <option value="Sofa 1x Seater">
+        <option value="Sofa 2x Seater">
+        <option value="Sofa 3x Seater">
+        <option value="Center Table">
+        <option value="Side Table">
+        <option value="T.V. Unit">
+        <option value='T.V. 32"'>
+        </datalist>
+    </div>
+
+    <div class="input-group">
+        <label for="itemValue">Item Value (m³):</label>
+        <span id="itemValue" class="value-box">—</span>
+    </div>
+
+    <div class="input-group">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" placeholder="Enter quantity" min="1" value="1">
+    </div>
+    <div class="button-group"> <!-- ✅ Centered buttons -->
+        <button id="computeBtn">Add to Table</button>
+        <button id="clearBtn" class="clear-btn">Clear Table</button>
+    </div>
+    </div>
+
+        <!-- Right Side -->
+        <div class="results">
+        <h2>Survey Lists</h2>
+        <div id="totalVolume">Total Volume: 0.000 m³</div>
+
+        <div id="tableContainer" class="table-responsive">
+            <table id="resultTable">
+            <thead>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Location</th>
+                        <th>Item</th>
+                        <th>Fixed Cbm (m³)</th>
+                        <th>Qty</th>
+                        <th>Volume (m³)</th>
+                    </tr>
+                    </thead>
+            <tbody></tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+
+  <script>
+    (function () {
+      let count = 0;
+      let totalVolume = 0;
+
+      const computeBtn = document.getElementById('computeBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const itemNameInput = document.getElementById('itemName');
+      const itemValueEl = document.getElementById('itemValue');
+      const qtyInput = document.getElementById('quantity');
+      const tableBody = document.querySelector('#resultTable tbody');
+      const totalVolumeEl = document.getElementById('totalVolume');
+      const tableContainer = document.getElementById('tableContainer');
+
+      // ✅ Item fixed volumes
+      const itemValues = {
+        "Sofa 1x Seater": 1.2,
+        "Sofa 2x Seater": 1.8,
+        "Sofa 3x Seater": 2.1,
+        "Center Table": 0.9,
+        "Side Table": 0.4,
+        "T.V. Unit": 0.9,
+        'T.V. 32"': 0.35
+      };
+
+      // ✅ Show value when item selected
+      itemNameInput.addEventListener('input', function () {
+        const selected = itemNameInput.value.trim();
+        itemValueEl.textContent =
+          selected && itemValues[selected] !== undefined
+            ? itemValues[selected].toFixed(2)
+            : '—';
+      });
+
+      function updateScrollbar() {
+        const rows = tableBody.rows.length;
+        tableContainer.style.overflowY = rows > 5 ? 'auto' : 'hidden';
+      }
+
+      function updateTotalDisplay() {
+        totalVolumeEl.textContent = `Total Volume: ${totalVolume.toFixed(3)} m³`;
+      }
+
+function computeCubicMeter() {
+  const location = document.getElementById('location').value.trim();
+  const itemName = itemNameInput.value.trim();
+  const qty = parseInt(qtyInput.value);
+
+  if (!location) {
+    alert('Please select a location!');
+    return;
+  }
+
+  if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
+    alert('Please select a valid item and enter a valid quantity!');
+    return;
+  }
+
+  const fixedCbm = itemValues[itemName];
+  const totalItemVolume = fixedCbm * qty;
+
+  count++;
+  totalVolume += totalItemVolume;
+
+  // ✅ Create new table row including location
+  const tr = document.createElement('tr');
+  tr.className = 'highlight';
+  tr.innerHTML = `
+    <td>${count}</td>
+    <td>${location}</td>
+    <td>${itemName}</td>
+    <td>${fixedCbm.toFixed(2)}</td>
+    <td>${qty}</td>
+    <td>${totalItemVolume.toFixed(2)}</td>
+  `;
+
+  // Remove highlight from previous rows
+  Array.from(tableBody.rows).forEach(row => row.classList.remove('highlight'));
+
+  tableBody.appendChild(tr);
+  tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  updateTotalDisplay();
+  updateScrollbar();
+
+  // ✅ Reset inputs and focus back to location for next entry
+    itemNameInput.value = '';
+    qtyInput.value = 1;
+    itemValueEl.textContent = '—';
+    const locationInput = document.getElementById('location');
+    locationInput.value = '';
+    locationInput.focus();
+    locationInput.select(); // highlights the box for immediate typing
+}
+
+      function clearTable() {
+        tableBody.innerHTML = '';
+        totalVolume = 0;
+        count = 0;
+        updateTotalDisplay();
+        updateScrollbar();
+      }
+
+      computeBtn.addEventListener('click', computeCubicMeter);
+      clearBtn.addEventListener('click', clearTable);
+
+      qtyInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') computeCubicMeter();
+      });
+    })();
+  </script>
+</body>
+</html>
