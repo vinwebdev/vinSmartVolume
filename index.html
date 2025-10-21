@@ -1,474 +1,418 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <!-- Declares the document type as HTML5 -->
+<html lang="en"> <!-- Root element of HTML document, language set to English -->
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cubic Meter Calculator</title>
+  <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on mobile devices -->
+  <title>Cubic Meter Calculator</title> <!-- Title shown in browser tab -->
 
   <style>
+    /* ===== BODY STYLING ===== */
     body {
-
-    font-family: Arial, sans-serif;
-    background: #f6f7fb;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* let content flow naturally */
-    align-items: center;
-    min-height: 100vh; /* ensures at least full viewport height */
-    padding: 20px;
-    margin: 0;
-        /*
-      font-family: Arial, sans-serif;
-      background: #f6f7fb;
-      display: flex;
-      flex-direction: column; /* ✅ stack header above container 
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      padding: 20px;
-      margin: 0;
-      */
+      font-family: Arial, sans-serif; /* Sets font for entire page */
+      background: #f6f7fb; /* Light background color */
+      display: flex; /* Enables flexbox layout */
+      flex-direction: column; /* Stacks elements vertically */
+      justify-content: flex-start; /* Aligns items from top */
+      align-items: center; /* Centers items horizontally */
+      min-height: 100vh; /* Ensures body occupies full viewport height */
+      padding: 20px; /* Adds spacing inside body */
+      margin: 0; /* Removes default browser margin */
     }
-    /* ✅ Header container */
+
+    /* ===== HEADER STYLING ===== */
     .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    
+      display: flex; /* Use flexbox for horizontal alignment */
+      align-items: center; /* Vertically centers content */
+      justify-content: center; /* Horizontally centers content */
+          /*background-color: #ffffff; /* White background for header */
+      padding: 10px 0px; /* Padding inside header */
+      border-radius: 10px; /* Rounded corners */
+          /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      margin-bottom: 2px; /* Space below header */
+      gap: 15px;
     }
 
-    /* ✅ Logo styling */
     .logo {
-    width: 70px;
-    height: auto;
-    border-radius: 8px;
-    margin-right: 10px;
+      width: 70px; /* Logo width */
+      height: auto; /* Keep aspect ratio */
+      border-radius: 8px; /* Rounded logo corners */
+      margin-right: 10px; /* Space between logo and text */
     }
 
-    /* ✅ Company name styling */
     .company-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0 0 0 10px;
+      font-size: 1.5rem; /* Large font for company name */
+      font-weight: 600; /* Semi-bold text */
+      color: #333; /* Dark gray text color */
+      margin: 0 0 0 10px; /* Left margin only */
     }
 
+    /* ===== CONTAINER FOR CALCULATOR AND RESULTS ===== */
     .container {
-      display: flex;
-      width: 1100px;
-      background: white;
-      box-shadow: 0 4px 10px rgba(199, 13, 121, 0.1);
-      border-radius: 12px;
-      overflow: hidden;
+      display: flex; /* Flexbox layout for side-by-side panels */
+      width: 1100px; /* Fixed width for large screens */
+      background: white; /* White background */
+      box-shadow: 0 4px 10px rgba(199, 13, 121, 0.1); /* Subtle shadow */
+      border-radius: 12px; /* Rounded corners */
+      overflow: hidden; /* Clips content that overflows */
     }
 
-/***** LEFT PANEL *****/
+    /* ===== LEFT PANEL (CALCULATOR) ===== */
     .calculator {
-      flex: 0.5;
-      padding: 10px;
-      border-right: 2px solid #eee;
-      box-sizing: border-box;
+      flex: 0.5; /* Takes half of container width */
+      padding: 10px; /* Inner padding */
+      border-right: 2px solid #eee; /* Divider line */
+      box-sizing: border-box; /* Includes padding in width calculation */
+      background: linear-gradient(135deg, #cccccd, #dce9de);
     }
 
-    .calculator h2 { font-size: 18px; text-align: center; margin-bottom: 10px; margin-top: 8px; }
-    .input-group { margin-bottom: 15px; }
-    label { font-weight: bold; }
+    .calculator h2 { font-size: 18px; text-align: center; margin-bottom: 10px; margin-top: 8px; } /* Section title */
+    .input-group { margin-bottom: 15px; } /* Spacing between input fields */
+  /*  label { font-weight: bold; } /* Bold labels */
 
     select, input[type="number"], input[list] {
-      width: 60%;
-      padding: 10px;
-      border: 1px solid #bbb;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 5px;
+      width: 60%; /* Width of inputs */
+      padding: 10px; /* Inner spacing */
+      border: 1px solid #bbb; /* Border color */
+      border-radius: 8px; /* Rounded corners */
+      font-size: 16px; /* Font size inside input */
+      margin-top: 5px; /* Spacing above input */
     }
 
     #itemValue {
-      display: inline-block;
-      margin-left: 10px;
-      font-weight: bold;
-      font-size: 16px;
-      color: #0078ff;
+
+      display: inline-block; /* Inline container for value */
+      margin-left: 0px; /* Space from label */
+      font-weight: bold; /* Bold text */
+      font-size: 16px; /* Font size */
+      color: #0078ff; /* Blue color */
     }
 
-    /*************************************/
-/* --- Align labels and inputs horizontally --- */
-.input-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  gap: 10px;
-}
-
-.input-group label {
-  flex: 0 0 40%;
-  font-weight: bold;
-  text-align: right;
-}
-
-.input-group input[list],
-.input-group input[type="number"],
-.input-group .value-box {
-  width: 70%;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-/* Make item value box consistent with inputs */
-.value-box {
-  background: #f9f9f9;
-  color: #0078ff;
-  font-weight: bold;
-}
-    /*************************************/
- button {
-      width: 80%;
-      background-color: #0078ff;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      margin-bottom: 10px;
+    /* ===== HORIZONTAL ALIGNMENT OF LABELS AND INPUTS ===== */
+    .input-group {
+      display: flex; /* Flex layout for label and input */
+      align-items: center; /* Vertically align */
+      justify-content: space-between; /* Spread label and input */
+      margin-bottom: 15px; /* Space below group */
+      gap: 10px; /* Space between items */
+      width: 100%;
     }
 
-    button:hover { background-color: #005fcc; }
-    .clear-btn { background-color: #d9534f; }
-    .clear-btn:hover { background-color: #b52b27; }
-    /* ✅ Center buttons horizontally */
+    .input-group label {
+      flex: 0 0 30%; /* Label takes 40% width */
+      font-size: 13px; /* Bold text */
+      text-align: right; /* Right-align label */
+    }
+
+    .input-group input[list],
+    .input-group input[type="number"],
+    .input-group .value-box {
+      width: 70%; /* Input width */
+      padding: 10px; /* Inner padding */
+      border: 1px solid #bbb; /* Border color */
+      border-radius: 8px; /* Rounded corners */
+      font-size: 16px; /* Text size */
+    }
+
+    .value-box {
+      background: #f9f9f9; /* Gray background for value */
+      color: #0078ff; /* Blue text */
+      font-weight: bold; /* Bold font */
+    }
+
+    button:hover { background-color: #005fcc; } /* Darker blue on hover */
+    .clear-btn { background-color: #d9534f; } /* Red button for clear */
+    .clear-btn:hover { background-color: #b52b27; } /* Darker red on hover */
+
     .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 15px;
+      display: flex; /* Flex layout */
+      justify-content: center; /* Center horizontally */
+      gap: 15px; /* Space between buttons */
+      margin-top: 15px; /* Space above group */
+      padding-bottom: 12px;
     }
 
-    /* Optional: make buttons same size and visually balanced */
     .button-group button {
-    padding: 10px 20px;
-    font-size: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: none;
+      padding: 10px 30px; /* Inner spacing */
+      font-size: 15px; /* Font size */
+      border-radius: 8px; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor */
+      border: none; /* No border */
     }
 
     #computeBtn {
-    background-color: #007bff;
-    color: white;
+      background-color: #007bff; /* Blue button */
+      color: white; /* White text */
     }
 
     .clear-btn {
-    background-color: #dc3545;
-    color: white;
+      background-color: #dc3545; /* Red button */
+      color: white; /* White text */
     }
-    /*************************************/
-/***** END LEFT PANEL *****/
-/***** RIGHT PANEL *****/
+
+    /* ===== RIGHT PANEL (RESULTS) ===== */
     .results {
-      flex: 1;
-      padding: 10px;
+      flex: 1; /* Takes remaining space */
+      padding: 10px; /* Inner padding */
       box-sizing: border-box;
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* Stack elements vertically */
       font-size: 12px;
     }
 
     .results h2 {
       text-align: center;
-      margin-bottom: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 8px; /* Spacing below title */
     }
 
     #totalVolume {
-      font-weight: bold;
-      color: #0a4ca0;
-      margin-bottom: 10px;
-      font-size: 15px;
+      font-weight: bold; /* Bold text */
+      color: #042b5f; /* Dark blue text */
+      margin-bottom: 10px; /* Space below */
+      font-size: 15px; /* Font size */
     }
 
     #tableContainer {
-      flex: 1;
-      overflow-y: hidden;
-      max-height: 300px;
+      flex: 1; /* Take available vertical space */
+      overflow-y: hidden; /* Hide vertical scrollbar initially */
+      max-height: 300px; /* Limit table height */
     }
 
     table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: center;
+      width: 100%; /* Full width */
+      border-collapse: collapse; /* Remove gaps between cells */
+      text-align: center; /* Center cell content */
     }
 
     th, td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #ccc;
+      padding: 10px 8px; /* Cell padding */
+      border-bottom: 1px solid #ccc; /* Bottom border for rows */
     }
 
     th {
-      background: #f1f1f1;
-      position: sticky;
-      top: 0;
-      z-index: 2;
+      background:  #007bff; /* Light header background */
+      color: white;
+      position: sticky; /* Stick header when scrolling */
+      top: 0; /* Stick to top */
+      z-index: 2; /* Ensure header is above rows */
     }
 
     tr:hover {
-      background-color: #f9f9f9;
+      background-color: #f9f9f9; /* Highlight row on hover */
     }
 
     .highlight {
-      background: #dff0d8;
-      font-weight: bold;
+      background: #dcecfd; /* Light blue highlight */
+      font-weight: bold; /* Bold text */
     }
-    /***** END RIGHT PANEL *****/
-/* ===== Responsive Media Queries ===== */
 
-/* Large desktop screens (>1200px) */
-@media (min-width: 1200px) {
-  .container {
-    width: 1100px;
-  }
-  .header {
-    width: 1100px;
-  }
-}
+    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+    @media (min-width: 1200px) { /* Large screens */
+      .container, .header { width: 1100px; }
+    }
 
-/* Medium desktop / small laptop (992px - 1199px) */
-@media (max-width: 1199px) and (min-width: 992px) {
-  .container {
-    width: 900px;
-  }
-  .header {
-    width: 900px;
-  }
-}
+    @media (max-width: 1199px) and (min-width: 992px) { /* Medium screens */
+      .container, .header { width: 900px; }
+    }
 
-/* Tablet screens (768px - 991px) */
-@media (max-width: 991px) and (min-width: 768px) {
-  .container {
-    width: 700px;
-    flex-direction: column; /* stack left and right panels */
-  }
-  .calculator, .results {
-    flex: 1 1 100%;
-    border-right: none;
-    border-bottom: 2px solid #eee;
-    padding: 15px;
-  }
-  .header {
-    width: 700px;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-  .input-group label {
-    flex: 0 0 40%;
-  }
-  select, input[type="number"], input[list], .value-box {
-    width: 70%;
-  }
-}
+    @media (max-width: 991px) and (min-width: 768px) { /* Tablets */
+      .container { width: 700px; flex-direction: column; }
+      .calculator, .results {
+        flex: 1 1 100%;
+        border-right: none;
+        border-bottom: 2px solid #eee;
+        padding: 15px;
+      }
+      .header { width: 700px; flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+      select, input[type="number"], input[list], .value-box { width: 70%; }
+      .input-group {margin-right: 50px;}
+    }
 
-/* Small tablets and large phones (576px - 767px) */
-/* Small screens (<768px) adjustments */
-/* Small screens */
-@media (max-width: 767px) {
-  .container {
-    flex-direction: column;
-    width: 100%;
-    height: auto; /* let container grow with content */
-  }
+    @media (max-width: 767px) { /* Small tablets/large phones */
+      .container { flex-direction: column; width: 100%; height: auto; }
+      .calculator, .results { flex: 1 1 auto; border-right: none; border-bottom: 2px solid #eee; padding: 10px; }
+      .input-group {margin-right: 50px; width: auto;}
+      .button-group button { margin: 0px; }
+      .button-group { align-items: center; padding: 0px 0px;}
+      #computeBtn { width:50%;}
+      #clearBtn { width: 50%; margin-bottom: 5px;}
+      .table-responsive { overflow-x: auto; overflow-y: auto; max-height: none; }
+      .table-responsive table { min-width: 600px; }
+      
+    }
 
-  .calculator, .results {
-    flex: 1 1 auto; /* let panels grow naturally */
-    border-right: none;
-    border-bottom: 2px solid #eee;
-    padding: 10px;
-  }
+    @media (max-width: 575px) { /* Small phones */
+      .container { width: 100%; flex-direction: column; }
+      .calculator, .results { flex: 1 1 100%; border-right: none; border-bottom: 2px solid #eee; padding: 8px; }
+      .header { width: 100%; flex-direction: column; align-items: center; text-align: center; gap: 5px; padding: 8px 10px; }
+      .logo { width: 50px; }
+      .company-name { font-size: 1.2rem; }
+      .input-group label { flex: 0 0 50%; font-size: 13px; }
+      select, input[type="number"], input[list], .value-box { width: 70%; font-size: 13px; }
+      .button-group { flex-direction: column; gap: 10px; width: 100%; }
+      .button-group button { width: 90%; }
+    }
 
-  .button-group button { margin: 0px;}
-  .table-responsive {
-    overflow-x: auto;
-    overflow-y: auto;
-    max-height: none; /* allow full table to show */
-  }
-
-  .table-responsive table {
-    min-width: 600px; /* ensure table columns don’t shrink too much */
-  }
-}
-
-/* Small phones (<576px) */
-@media (max-width: 575px) {
-  .container {
-    width: 100%;
-    flex-direction: column;
-  }
-  .calculator, .results {
-    flex: 1 1 100%;
-    border-right: none;
-    border-bottom: 2px solid #eee;
-    padding: 8px;
-  }
-  .header {
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 5px;
-    padding: 8px 10px;
-  }
-  .logo {
-    width: 50px;
-  }
-  .company-name {
-    font-size: 1.2rem;
-  }
-  .input-group label {
-    flex: 0 0 50%;
-    font-size: 13px;
-  }
-  select, input[type="number"], input[list], .value-box {
-    width: 70%;
-    font-size: 13px;
-  }
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-  }
-  .button-group button {
-    width: 90%;
-  }
-}
-
-/* Make table scrollable on small screens */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto; /* horizontal scroll if needed */
-}
-
-.table-responsive table {
-  min-width: 600px; /* ensures table keeps its columns */
-}
-
-/* Optional: hide scrollbar for aesthetic on mobile (Webkit browsers) */
-.table-responsive::-webkit-scrollbar {
-  height: 6px;
-}
-
-.table-responsive::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.2);
-  border-radius: 3px;
-}
-
-.table-responsive::-webkit-scrollbar-track {
-  background: transparent;
-}
+    .table-responsive { width: 100%; overflow-x: auto; }
+    .table-responsive table { min-width: 600px; }
+    .table-responsive::-webkit-scrollbar { height: 6px; }
+    .table-responsive::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
+    .table-responsive::-webkit-scrollbar-track { background: transparent; }
 
   </style>
 </head>
-<!-- ✅ Searchable item name input -->
+
 <body>
-    <!-- ✅ Company Header -->
+    <!-- Header with logo and company name -->
     <div class="header">
         <img src="ASL-Logo.png" alt="Company Logo" class="logo">
         <h1 class="company-name">SmartVolume</h1>
     </div>
 
     <div class="container">
-        <!-- Left Side -->
+        <!-- LEFT PANEL: Calculator -->
         <div class="calculator">
-    <h2>Calculator</h2>
+            <h2>Calculator</h2>
 
-    <!-- ✅ Location dropdown added -->
-    <div class="input-group">
-        <label for="location">Location / Area:</label>
-        <input list="locationList" id="location" placeholder="Select or search location">
-        <datalist id="locationList">
-        <option value="Entrance">
-        <option value="Living Room">
-        <option value="Dining Room">
-        <option value="Kitchen">
-        <option value="Landing Area">
-        <option value="Bed Room 1">
-        <option value="Bed Room 2">
-        <option value="Bed Room 3">
-        <option value="Bed Room 4">
-        <option value="Maids Room">
-        <option value="Storage Room">
-        <option value="Garage">
-        <option value="Outdoor">
-        </datalist>
-    </div>
+            <div class="input-group">
+                <label for="location">Location / Area:</label>
+                <input list="locationList" id="location" placeholder="Select / search location">
+                <datalist id="locationList">
+                    <option value="Entrance">
+                    <option value="Living Room">
+                    <option value="Dining Room">
+                    <option value="Kitchen">
+                    <option value="Landing Area">
+                    <option value="Bed Room 1">
+                    <option value="Bed Room 2">
+                    <option value="Bed Room 3">
+                    <option value="Bed Room 4">
+                    <option value="Maids Room">
+                    <option value="Storage Room">
+                    <option value="Garage">
+                    <option value="Outdoor">
+                </datalist>
+            </div>
 
-    <div class="input-group">
-        <label for="itemName">Name of Item:</label>
-        <input list="itemList" id="itemName" placeholder="Search or select an item">
-        <datalist id="itemList">
-        <option value="Sofa 1x Seater">
-        <option value="Sofa 2x Seater">
-        <option value="Sofa 3x Seater">
-        <option value="Center Table">
-        <option value="Side Table">
-        <option value="T.V. Unit">
-        <option value='T.V. 32"'>
-        </datalist>
-    </div>
+            <div class="input-group">
+                <label for="itemName">Name of Item:</label>
+                <input list="itemList" id="itemName" placeholder="Search or select an item">
+                <datalist id="itemList">
+                    <option value="Sofa 1x Seater">
+                    <option value="Sofa 2x Seater">
+                    <option value="Sofa 3x Seater">
+                    <option value="Coffee Table">
+                    <option value="Side Table">
+                    <option value="T.V. Unit">
+                    <option value='T.V. 32"'>
+                    <option value='Floor Lamp'>
+                    <option value='Table Lamp'>
+                    <option value='Curtains'>
+                    <option value='Blinds'>
+                    <option value='Wall Clock'>
+                    <option value='Rugs or Carpet'>
+                    <option value='Picture Frames / Wall Art'>
+                    <option value='Ceiling Lights'>
+                    <option value='Chandelier'>
+                    <option value='Bookshelf'>
+                    <option value='Refrigerator'>
+                    <option value='Gas Range'>
+                    <option value='Microwave Oven'>
+                    <option value='Dishwasher'>
+                    <option value='Cutlery (spoon, fork, knife)'>
+                    <option value='Crockeries'>
+                    <option value='Plates, Bowls, Glasses'>
+                    <option value='Pots & Pans'>
+                    <option value='Kitchen Electric Stuff '>
+                    <option value='Trash bin'>
+                    <option value='Bed & Mattress'>
+                    <option value='Bed Side Table'>
+                    <option value='Beddings'>
+                    <option value='Bed sheets & Blankets'>
+                    <option value='Wardrobe or closet'>
+                    <option value='Dresser'>
+                    <option value='Wall Frames'>
+                    <option value='Bench'>
+                    <option value='Stool'>
+                    <option value='Foot rest'>
+                    <option value='Clothes'>
+                    <option value='Mirror - Wall'>
+                    <option value='Mirror with stand'>
+                    <option value='Mirror - Life Size'>
+                    <option value='Safety Locker'>
+                    <option value='Toileteries'>
+                    <option value='Trash bin/Bath mat/Shower curtain'>
+                    <option value='Washing Machine'>
+                    <option value='Laundry basket'>
+                    <option value='Laundry Stuff'>
+                    <option value='Vacuum Cleaner'>
+                    <option value='Cleaning Materials'>
+                    <option value='Plastic storage boxes'>
+                    <option value='Tools/Tool kit'>
+                    <option value='Suitcase - small'>
+                    <option value='Suitcase - medium'>
+                    <option value='Suitcase - Large'>
+                    <option value='Heater / humidifier'>
+                    <option value='Umbrella - medium (outdoor)'>
+                    <option value='Umbrella - Large (outdoor)'>
+                    <option value='Table - (outdoor)'>
+                    <option value='Chair - (outdoor)'>
+                    <option value='Doormat'>
+                    <option value='Clothesline / Drying rack'>
+                    <option value='Plants and Pots'>
+                    <option value='ASL Box - small'>
+                    <option value='ASL Box - medium'>
+                    <option value='ASL Box - large'>
+                    <option value='ASL Box - Flat box'>
+                    <option value='ASL Box - Hanging box'>
+                </datalist>
+            </div>
 
-    <div class="input-group">
-        <label for="itemValue">Item Value (m³):</label>
-        <span id="itemValue" class="value-box">—</span>
-    </div>
+            <div class="input-group">
+                <label for="itemValue">Item Value (m³):</label>
+                <!-- <span id="itemValue" class="value-box">—</span> --><!-- Shows calculated volume -->
+                <input id="itemValue" class="value-box">
+            </div>
 
-    <div class="input-group">
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" placeholder="Enter quantity" min="1" value="1">
-    </div>
-    <div class="button-group"> <!-- ✅ Centered buttons -->
-        <button id="computeBtn">Add to Table</button>
-        <button id="clearBtn" class="clear-btn">Clear Table</button>
-    </div>
-    </div>
+            <div class="input-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" placeholder="Enter quantity" min="1" value="1">
+            </div>
 
-        <!-- Right Side -->
-        <div class="results">
-        <h2>Survey Lists</h2>
-        <div id="totalVolume">Total Volume: 0.000 m³</div>
-
-        <div id="tableContainer" class="table-responsive">
-            <table id="resultTable">
-            <thead>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Location</th>
-                        <th>Item</th>
-                        <th>Fixed Cbm (m³)</th>
-                        <th>Qty</th>
-                        <th>Volume (m³)</th>
-                    </tr>
-                    </thead>
-            <tbody></tbody>
-            </table>
+            <div class="button-group">
+                <button id="computeBtn">Add to Table</button>
+                <button id="clearBtn" class="clear-btn">Clear Table</button>
+            </div>
         </div>
+
+        <!-- RIGHT PANEL: Results -->
+        <div class="results">
+            <h2>Survey Lists</h2>
+            <div id="totalVolume">Total Volume: 0.000 m³</div> <!-- Displays total volume -->
+
+            <div id="tableContainer" class="table-responsive">
+                <table id="resultTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Location</th>
+                            <th>Item</th>
+                            <th>Fixed Cbm (m³)</th>
+                            <th>Qty</th>
+                            <th>Volume (m³)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody> <!-- Rows added dynamically -->
+                </table>
+            </div>
         </div>
     </div>
 
   <script>
     (function () {
-      let count = 0;
-      let totalVolume = 0;
+      let count = 0; // Keeps track of row number
+      let totalVolume = 0; // Total cubic meter sum
 
+      // Get references to HTML elements
       const computeBtn = document.getElementById('computeBtn');
       const clearBtn = document.getElementById('clearBtn');
       const itemNameInput = document.getElementById('itemName');
@@ -478,98 +422,104 @@
       const totalVolumeEl = document.getElementById('totalVolume');
       const tableContainer = document.getElementById('tableContainer');
 
-      // ✅ Item fixed volumes
+      // Predefined cubic meter values for items
       const itemValues = {
         "Sofa 1x Seater": 1.2,
         "Sofa 2x Seater": 1.8,
         "Sofa 3x Seater": 2.1,
-        "Center Table": 0.9,
+        "Coffee Table": 0.9,
         "Side Table": 0.4,
         "T.V. Unit": 0.9,
-        'T.V. 32"': 0.35
+        'T.V. 32"': 0.35,
+        "Floor Lamp": 0.01,
+        "Table Lamp": 0.01,
+        "Curtains": 0.01,
+        "Blinds": 0.01,
+        "Wall Clock": 0.01,
+        "Rugs or Carpet": 0.01
+
       };
 
-      // ✅ Show value when item selected
+     // Update item value display when item selected
       itemNameInput.addEventListener('input', function () {
         const selected = itemNameInput.value.trim();
-        itemValueEl.textContent =
-          selected && itemValues[selected] !== undefined
-            ? itemValues[selected].toFixed(2)
-            : '—';
+        if (selected && itemValues[selected] !== undefined) {
+          itemValueEl.value = itemValues[selected].toFixed(2); // ✅ use .value for input
+        } else {
+          itemValueEl.value = 0; // reset if item not found
+        }
       });
 
+
       function updateScrollbar() {
-        const rows = tableBody.rows.length;
-        tableContainer.style.overflowY = rows > 5 ? 'auto' : 'hidden';
+        const rows = tableBody.rows.length; 
+        tableContainer.style.overflowY = rows > 5 ? 'auto' : 'hidden'; // Show scrollbar if more than 5 rows
       }
 
       function updateTotalDisplay() {
-        totalVolumeEl.textContent = `Total Volume: ${totalVolume.toFixed(3)} m³`;
+        totalVolumeEl.textContent = `Total Volume: ${totalVolume.toFixed(3)} m³`; // Update total volume
       }
 
-function computeCubicMeter() {
-  const location = document.getElementById('location').value.trim();
-  const itemName = itemNameInput.value.trim();
-  const qty = parseInt(qtyInput.value);
+      function computeCubicMeter() {
+        const location = document.getElementById('location').value.trim();
+        const itemName = itemNameInput.value.trim();
+        const qty = parseInt(qtyInput.value);
 
-  if (!location) {
-    alert('Please select a location!');
-    return;
-  }
+        if (!location) { alert('Please select a location!'); return; } // Validate location
+        if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
+          alert('Please select a valid item and enter a valid quantity!'); return; // Validate item
+        }
 
-  if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
-    alert('Please select a valid item and enter a valid quantity!');
-    return;
-  }
+        const fixedCbm = itemValues[itemName]; // Get item volume
+        const totalItemVolume = fixedCbm * qty; // Multiply by quantity
 
-  const fixedCbm = itemValues[itemName];
-  const totalItemVolume = fixedCbm * qty;
+        count++; // Increment row number
+        totalVolume += totalItemVolume; // Add to total volume
 
-  count++;
-  totalVolume += totalItemVolume;
+        // Create new row for table
+        const tr = document.createElement('tr');
+        tr.className = 'highlight'; // Highlight new row
+        tr.innerHTML = `
+          <td>${count}</td>
+          <td>${location}</td>
+          <td>${itemName}</td>
+          <td>${fixedCbm.toFixed(2)}</td>
+          <td>${qty}</td>
+          <td>${totalItemVolume.toFixed(2)}</td>
+        `;
 
-  // ✅ Create new table row including location
-  const tr = document.createElement('tr');
-  tr.className = 'highlight';
-  tr.innerHTML = `
-    <td>${count}</td>
-    <td>${location}</td>
-    <td>${itemName}</td>
-    <td>${fixedCbm.toFixed(2)}</td>
-    <td>${qty}</td>
-    <td>${totalItemVolume.toFixed(2)}</td>
-  `;
+        // Remove highlight from previous rows
+        Array.from(tableBody.rows).forEach(row => row.classList.remove('highlight'));
 
-  // Remove highlight from previous rows
-  Array.from(tableBody.rows).forEach(row => row.classList.remove('highlight'));
+        tableBody.appendChild(tr); // Add row to table
+        tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Scroll to new row
 
-  tableBody.appendChild(tr);
-  tr.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        updateTotalDisplay(); // Update total volume display
+        updateScrollbar(); // Adjust scrollbar if needed
 
-  updateTotalDisplay();
-  updateScrollbar();
-
-  // ✅ Reset inputs and focus back to location for next entry
-    itemNameInput.value = '';
-    qtyInput.value = 1;
-    itemValueEl.textContent = '—';
-    const locationInput = document.getElementById('location');
-    locationInput.value = '';
-    locationInput.focus();
-    locationInput.select(); // highlights the box for immediate typing
-}
+        // Reset inputs for next entry
+        itemNameInput.value = '';
+        qtyInput.value = 1;
+        itemValueEl.textContent = '—';
+        const locationInput = document.getElementById('location');
+        locationInput.value = '';
+        locationInput.focus(); // Focus on location input
+        locationInput.select(); // Select text for immediate typing
+      }
 
       function clearTable() {
-        tableBody.innerHTML = '';
-        totalVolume = 0;
-        count = 0;
-        updateTotalDisplay();
-        updateScrollbar();
+        tableBody.innerHTML = ''; // Remove all rows
+        totalVolume = 0; // Reset total volume
+        count = 0; // Reset row count
+        updateTotalDisplay(); // Update total display
+        updateScrollbar(); // Adjust scrollbar
       }
 
+      // Event listeners for buttons
       computeBtn.addEventListener('click', computeCubicMeter);
       clearBtn.addEventListener('click', clearTable);
 
+      // Enter key triggers compute
       qtyInput.addEventListener('keydown', e => {
         if (e.key === 'Enter') computeCubicMeter();
       });
@@ -577,4 +527,3 @@ function computeCubicMeter() {
   </script>
 </body>
 </html>
-
