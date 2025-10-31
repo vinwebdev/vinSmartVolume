@@ -80,7 +80,7 @@
       display: flex; /* Flex layout for label and input */
       align-items: center; /* Vertically align */
       justify-content: space-between; /* Spread label and input */
-      margin-bottom: 15px; /* Space below group */
+      margin-bottom: 10px; /* Space below group */
       gap: 10px; /* Space between items */
       width: 100%;
     }
@@ -101,6 +101,20 @@
       font-size: 16px; /* Text size */
     }
 
+    #name {
+      width: 70%; /* Input width */
+      padding: 10px; /* Inner padding */
+      border: 1px solid #bbb; /* Border color */
+      border-radius: 8px; /* Rounded corners */
+      font-size: 16px; /* Text size */
+    } 
+    #destination {
+      width: 70%; /* Input width */
+      padding: 10px; /* Inner padding */
+      border: 1px solid #bbb; /* Border color */
+      border-radius: 8px; /* Rounded corners */
+      font-size: 16px; /* Text size */
+    } 
     .value-box {
       background: #f9f9f9; /* Gray background for value */
       color: #0078ff; /* Blue text */
@@ -406,6 +420,14 @@
             <img src="ASL-Logo.png" alt="Company Logo" class="logo">
             <h2>SmartVolume</h2>
           </span>
+            <div class="input-group"> 
+                <label for="name">Client Name:</label>
+                <input type="text" id="name" placeholder="Client Name">
+            </div>
+            <div class="input-group">
+              <label for="destination">Destination:</label>
+              <input type="text" id="destination" name="Origin/Destination">
+            </div>
             <div class="input-group">
                 <label for="location">Job Type:</label>
                 <input list="jobtypeList" id="jobtype" placeholder="Select Job Type">
@@ -700,7 +722,7 @@
     //doc.setFont("helvetica", "normal");
     //doc.text("Air & Sea Logistics", 105, 15, { align: "center" });
 
-    doc.setFontSize(13);
+    doc.setFontSize(15);
     doc.setFont("helvetica", "bold");
     doc.text("Survey Report", 105, 20, { align: "center" });
 
@@ -725,38 +747,48 @@
   const dateString = now.toLocaleString("en-GB", options).replace(",", " –");
 
 // Get the element
+const xname = document.getElementById("name").value
 const xjobType = document.getElementById("jobtype").value 
+const xdestination = document.getElementById("destination").value
+
+document.getElementById("name").textContent
 document.getElementById("jobtype").textContent;
+document.getElementById("destination").textContent;
 
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal"); 
-  doc.text(`Date: ${dateString}`, 195, 20, { align: "right" });
+  doc.text(`Date: ${dateString}`, 195, 24, { align: "right" });
 
-    // ✅ Display Total Volume at the top left (below the "Survey Report")
+   // ✅ Display the Client Name at the top left (below the "Survey Report")
+    doc.setFontSize(11);
+    doc.setFont("helvetica");
+    doc.text(`Client name: ${xname}`, 14, 35, { align: "left" });
+
+    // ✅ Display Total Volume at the top left (below the "Client Name")
     doc.setFontSize(12);
     doc.setFont("helvetica", "bold");
-    doc.text(`Total Volume: ${totalVolume.toFixed(2)} m³`, 14, 33, { align: "left" });
+    doc.text(`Total Volume: ${totalVolume.toFixed(2)} m³`, 14, 40, { align: "left" });
 
     // ✅ Display Surveyor Name at the top Left (below the "Total Volume")
     doc.setFontSize(11);
-    doc.setFont("helvetica", "bold");
+    doc.setFont("helvetica");
     //doc.text(`Job Type: ${totalVolume.toFixed(2)} `, 14, 38, { align: "left" });
-    doc.text(`Job Type: ${xjobType}`, 14, 38, { align: "left" });
+    doc.text(`Job Type: ${xjobType}`, 14, 45, { align: "left" });
 
     // ✅ Display Location Name at the top right (below the "Survey Report Header")
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
-    doc.text(`Location: Dubai To Australia`, 195, 33, { align: "right" });
+    doc.text(`Destination: ${xdestination}`, 195, 40, { align: "right" });
 
     // ✅ Display Surveyor Name at the top right (below "Location")
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
-    doc.text(`Surveyor: Marvin D. Gonzales`, 195, 38, { align: "right" });
+    doc.text(`Surveyor: Marvin D. Gonzales`, 195, 45, { align: "right" });
 
     // === Table ===
     doc.autoTable({
       html: '#resultTable',
-      startY: 41, // leave space below header
+      startY: 48, // leave space below header
       theme: 'grid',
       headStyles: {
         fillColor: [41, 128, 185],
@@ -797,4 +829,3 @@ document.getElementById("jobtype").textContent;
 
 </body>
 </html>
-
