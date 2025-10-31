@@ -4,7 +4,7 @@
   <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on mobile devices -->
   <title>Cubic Meter Calculator</title> <!-- Title shown in browser tab -->
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
 /* ===== BODY STYLING ===== */
     body {
@@ -34,7 +34,7 @@
 
     /* ===== LEFT PANEL (CALCULATOR) ===== */
     .calculator {
-      flex: 0.5; /* Takes half of container width */
+      flex: 0.7; /* Takes half of container width */
       padding: 10px;
       border-right: 2px solid #eee; /* Divider line */
       box-sizing: border-box; /* Includes padding in width calculation */
@@ -131,21 +131,21 @@
 
     .button-group button {
       padding: 10px 30px; /* Inner spacing */
-      font-size: 15px; /* Font size */
+      font-size: 14px; /* Font size */
       border-radius: 8px; /* Rounded corners */
       cursor: pointer; /* Pointer cursor */
       border: none; /* No border */
     }
     #download-btn { padding: 10px 15px; /* Inner spacing */ }
 
-    #computeBtn { background-color: #007bff; color: white; }
-    #computeBtn:hover { background-color: #0353b0; } /* Darker blue on hover */
+    #computeBtn {  background-color:#28a745; color: white; }
+    #computeBtn:hover { background-color:#168a1c; } /* Darker blue on hover */
 
     .clear-btn { background-color: #dc3545; color: white; }
     .clear-btn:hover { background-color: #b52b27; } /* Darker red on hover */
 
-    .downloadbtn { background-color:#26b72d; color: white; }
-    .downloadbtn:hover { background-color:#168a1c;} /* Darker green on hover */
+    .downloadbtn { background-color: #007bff; color: white; }
+    .downloadbtn:hover { background-color: #0353b0; } /* Darker green on hover */
 
     /* ===== RIGHT PANEL (RESULTS) ===== */
     .results {
@@ -544,10 +544,10 @@
             </div>
 
             <div class="button-group">
-                <button id="computeBtn">Add Table</button>               
+                <button id="computeBtn"><i class="fa-solid fa-plus"></i> Add Data</button>               
                 <img id="companyLogo" src="/c:/vin/Project_Volume_Calculator2/ASL-Logo.png" alt="Company Logo" style="display:none;">
-                <button id="download-btn" class="downloadbtn">Download</button>
-                 <button id="clearBtn" class="clear-btn">Clear</button>
+                <button id="download-btn" class="downloadbtn"><i class="fa-solid fa-download"></i> Download</button>
+                 <button id="clearBtn" class="clear-btn"><i class="fa-solid fa-trash"></i> Clear</button>
             </div>
         </div>
 
