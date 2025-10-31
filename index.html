@@ -6,10 +6,11 @@
   <title>Cubic Meter Calculator</title> <!-- Title shown in browser tab -->
 
   <style>
-    /* ===== BODY STYLING ===== */
+/* ===== BODY STYLING ===== */
     body {
       font-family: Arial, sans-serif; /* Sets font for entire page */
-      background: #f6f7fb; /* Light background color */
+  /*    background: #f6f7fb; /* Light background color */
+       background: linear-gradient(135deg, #03101f, #124f66);
       display: flex; /* Enables flexbox layout */
       flex-direction: column; /* Stacks elements vertically */
       justify-content: flex-start; /* Aligns items from top */
@@ -19,32 +20,6 @@
       margin: 0; /* Removes default browser margin */
     }
 
-    /* ===== HEADER STYLING ===== */
-    .header {
-      display: flex; /* Use flexbox for horizontal alignment */
-      align-items: center; /* Vertically centers content */
-      justify-content: center; /* Horizontally centers content */
-          /*background-color: #ffffff; /* White background for header */
-      padding: 10px 0px; /* Padding inside header */
-      border-radius: 10px; /* Rounded corners */
-          /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-      margin-bottom: 2px; /* Space below header */
-      gap: 15px;
-    }
-
-    .logo {
-      width: 70px; /* Logo width */
-      height: auto; /* Keep aspect ratio */
-      border-radius: 8px; /* Rounded logo corners */
-      margin-right: 10px; /* Space between logo and text */
-    }
-
-    .company-name {
-      font-size: 1.5rem; /* Large font for company name */
-      font-weight: 600; /* Semi-bold text */
-      color: #333; /* Dark gray text color */
-      margin: 0 0 0 10px; /* Left margin only */
-    }
 
     /* ===== CONTAINER FOR CALCULATOR AND RESULTS ===== */
     .container {
@@ -52,25 +27,38 @@
       width: 1100px; /* Fixed width for large screens */
       background: white; /* White background */
       box-shadow: 0 4px 10px rgba(199, 13, 121, 0.1); /* Subtle shadow */
-      border-radius: 12px; /* Rounded corners */
+      border-radius: 10px; /* Rounded corners */
       overflow: hidden; /* Clips content that overflows */
+      margin-top: 20px;
     }
 
     /* ===== LEFT PANEL (CALCULATOR) ===== */
     .calculator {
       flex: 0.5; /* Takes half of container width */
-      padding: 10px; /* Inner padding */
+      padding: 10px;
       border-right: 2px solid #eee; /* Divider line */
       box-sizing: border-box; /* Includes padding in width calculation */
-      /*background: linear-gradient(135deg, #cccccd, #dce9de); */
       background: white;
+      text-align: center;
     }
+   
+    .calculator .logo_calculator {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+          padding: 10px;
+          text-align: center;
+          width: 100%;
+        }
 
-    .calculator h2 { font-size: 18px; text-align: center; margin-bottom: 10px; margin-top: 8px; } /* Section title */
+    .logo_calculator img { width: 80px; /* optional, adjust logo size */  
+                           height: auto; }
+    .logo_calculator h2 { color: #0056b3; /* for contrast */ 
+                          margin: 0; }
+
     .input-group { margin-bottom: 15px; } /* Spacing between input fields */
-  /*  label { font-weight: bold; } /* Bold labels */
-
-    select, input[type="number"], input[list] {
+     select, input[type="number"], input[list] {
       width: 60%; /* Width of inputs */
       padding: 10px; /* Inner spacing */
       border: 1px solid #bbb; /* Border color */
@@ -80,7 +68,6 @@
     }
 
     #itemValue {
-
       display: inline-block; /* Inline container for value */
       margin-left: 0px; /* Space from label */
       font-weight: bold; /* Bold text */
@@ -201,8 +188,9 @@
       background: #dcecfd; /* Light blue highlight */
       font-weight: bold; /* Bold text */
     }
-
-    /* ===== RESPONSIVE MEDIA QUERIES ===== */
+/* ===== END BODY STYLING ===== */
+/*********************************************************************************/
+/* ===== RESPONSIVE MEDIA QUERIES ===== */
     @media (min-width: 1200px) { /* Large screens */
       .container, .header { width: 1100px; }
     }
@@ -230,7 +218,7 @@
       .input-group {margin-right: 15px; width: auto;}
       .button-group button { margin: 0px; }
       .button-group { align-items: center; padding: 0px 0px;}
-      #computeBtn { width:50%; }
+      #computeBtn { width:50%; padding: 20px 0px; }
       #download-btn { width:50%; }
       #clearBtn { width: 50%; margin-bottom: 5px;}
       .table-responsive { overflow-x: auto; overflow-y: auto; max-height: none; }
@@ -254,12 +242,12 @@
     .table-responsive::-webkit-scrollbar { height: 6px; }
     .table-responsive::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
     .table-responsive::-webkit-scrollbar-track { background: transparent; }
-
+/* ===== END RESPONSIVE MEDIA QUERIES ===== */
   </style>
 </head>
-
 <body>
-<!--**********************************-->
+  <!--*********************************************************************************-->
+<!--LOG IN PASSWORD-->
 <!-- ===== SMARTVOLUME SECURE LOGIN PAGE ===== -->
 <style>
   /* General Page Styling */
@@ -284,7 +272,7 @@
   .login-box {
     background: #fff;
     color: #333;
-    padding: 40px 50px;
+    padding: 10px 50px;
     border-radius: 20px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
     text-align: center;
@@ -300,23 +288,30 @@
     width: 120px;
     height: 120px;
     object-fit: contain;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .login-title {
     font-size: 22px;
     font-weight: 600;
     color: #007bff;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
+  }
+
+ .login-version {
+    font-size: 13px;
+    color: #021528;
+    margin-bottom: 10px;
   }
 
   .login-input {
-    width: 100%;
+    width: 90%;
     padding: 12px;
     margin: 10px 0;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 500;
     outline: none;
     transition: 0.3s;
   }
@@ -330,7 +325,7 @@
     background: #007bff;
     color: #fff;
     border: none;
-    padding: 12px 0;
+    padding: 15px 0;
     width: 100%;
     border-radius: 10px;
     font-size: 16px;
@@ -354,7 +349,7 @@
   /* Responsive Design */
   @media (max-width: 500px) {
     .login-box {
-      width: 80%;
+      width: 60%;
       padding: 30px;
     }
   }
@@ -364,12 +359,11 @@
   <div class="login-box">
     <img src="ASL-Logo.png" alt="Company Logo" class="login-logo">
     <div class="login-title">SmartVolume System</div>
-    <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
-      Enter the system password to continue.
-    </p>
-    <input type="password" id="passwordInput" class="login-input" placeholder="Enter Password">
+    <div class="login-version">Beta Version 1.0</div>
+    <input type="password" id="passwordInput" class="login-input" placeholder="Enter Password" style="font-size: 18px;">
     <button id="loginBtn" class="login-btn">Login</button>
     <p id="errorMsg">Incorrect password. Try again.</p>
+    <p style="font-size: 11px; font: weight 500px; margin-top: 40px; margin-bottom: 0px;">Developed by: VinTech || gonzales.marvin.2026@gmail.com</p></div>
   </div>
 </div>
 
@@ -401,19 +395,17 @@
     }
   }
 </script>
-
-<!--**********************************-->
-    <!-- Header with logo and company name -->
-    <div class="header">
-        <img src="/c:/vin/Project_Volume_Calulator1/ASL-Logo.png" alt="Company Logo" class="logo">
-        <h1 class="company-name">SmartVolume</h1>
-    </div>
+<!--END LOG IN PASSWORD-->
+<!--*********************************************************************************-->
+<!--HTML BODY PAGE-->
 
     <div class="container">
         <!-- LEFT PANEL: Calculator -->
         <div class="calculator">
-            <h2>Calculator</h2>
-
+          <span class= "logo_calculator">
+            <img src="/c:/vin/Project_Volume_Calculator1/ASL-Logo.png" alt="Company Logo" class="logo">
+            <h2>SmartVolume</h2>
+          </span>
             <div class="input-group">
                 <label for="location">Job Type:</label>
                 <input list="jobtypeList" id="jobtype" placeholder="Select Job Type">
@@ -425,7 +417,7 @@
             </div>
 
             <div class="input-group">
-                <label for="location">Location / Area:</label>
+                <label for="location">House Area:</label>
                 <input list="locationList" id="location" placeholder="Select / search location">
                 <datalist id="locationList">
                     <option value="Entrance">
@@ -560,6 +552,9 @@
         </div>
     </div>
 
+<!--END HTML BODY PAGE-->
+<!--*********************************************************************************-->
+<!--SCRIPT INPUT BOXES & CACULATE VOLUME-->
   <script>
     (function () {
       let count = 0; // Keeps track of row number
@@ -677,6 +672,9 @@
       });
     })();
   </script>
+  <!--END SCRIPT INPUT BOXES & CACULATE VOLUME-->
+<!--*********************************************************************************-->
+  <!--SCRIPT DOWNLOAD PDF-->
   <!-- Include jsPDF and AutoTable libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -795,6 +793,7 @@ document.getElementById("jobtype").textContent;
     doc.save('Survey_Report.pdf');
   });
 </script>
+<!--END SCRIPT DOWNLOAD PDF-->
 
 </body>
 </html>
