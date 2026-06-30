@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on mobile devices -->
-  <title>Cubic Meter Calculator</title> <!-- Title shown in browser tab -->
+  <title>SmartVolume</title> <!-- Title shown in browser tab -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
 /* ===== BODY STYLING ===== */
@@ -198,10 +198,38 @@
       background-color: #f9f9f9; /* Highlight row on hover */
     }
 
+    /*
     .highlight {
-      background: #dcecfd; /* Light blue highlight */
-      font-weight: bold; /* Bold text */
+      background: #dcecfd; /* Light blue highlight 
+      font-weight: bold; /* Bold text 
     }
+    */
+
+    /* ==================================
+      DELETE BUTTON
+    ================================== */
+
+    .delete-btn{
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 25s;
+
+    }
+
+    .delete-btn:hover {
+      background: #b52b27;      
+    }
+
+    .delete-btn i{
+      margin-right: 4px;
+    }
+
+
 /* ===== END BODY STYLING ===== */
 /*********************************************************************************/
 /* ===== RESPONSIVE MEDIA QUERIES ===== */
@@ -381,35 +409,90 @@
   </div>
 </div>
 
-
 <script>
   // ===== Secure Login Script =====
-  const correctPassword = "sv062026"; // Set your secure password here
+
+  const EXPIRY_DATE     = new Date("2026-07-01T23:59:59"); // ← update as needed
+  const correctPassword = "123";
+
   const loginContainer = document.getElementById("login-container");
-  const loginBtn = document.getElementById("loginBtn");
-  const passwordInput = document.getElementById("passwordInput");
-  const errorMsg = document.getElementById("errorMsg");
+  const loginBtn       = document.getElementById("loginBtn");
+  const passwordInput  = document.getElementById("passwordInput");
+  const errorMsg       = document.getElementById("errorMsg");
 
-  // Hide main system until login success
-  document.body.querySelectorAll("body > *:not(#login-container)").forEach(el => el.style.display = "none");
+  // Hide main app content until login succeeds
+  document.body
+    .querySelectorAll("body > *:not(#login-container)")
+    .forEach(el => el.style.display = "none");
 
-  // Allow Enter key or button click
-  loginBtn.addEventListener("click", checkPassword);
-  passwordInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") checkPassword();
-  });
+  // ── Run expiry check immediately on page load ──────────────────────────────
+  (function checkExpiry() {
+    const now = new Date();
+    if (now > EXPIRY_DATE) {
+      document.querySelector(".login-box").innerHTML = `
+        <img src="ASL-Logo.png" alt="Company Logo" class="login-logo">
+        <div class="login-title" style="color:#dc3545;">
+          Access Expired
+        </div>
+        <div class="login-version"
+             style="color:#dc3545; font-size:15px; margin:20px 0;">
+          This application has expired.<br>
+          Please contact the developer to renew access.
+        </div>
+        <p style="font-size:11px; margin-top:40px; margin-bottom:0;">
+          Developer: VinTech || gonzales.marvin.2026@gmail.com
+        </p>
+      `;
+      return; // Stop — do not attach login listeners
+    }
 
+    // Attach listeners only if app has NOT expired
+    loginBtn.addEventListener("click", checkPassword);
+    passwordInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") checkPassword();
+    });
+  })();
+
+  // ── Password check + expiry warning on successful login ───────────────────
   function checkPassword() {
-    if (passwordInput.value === correctPassword) {
+    const entered = passwordInput.value;
+
+    if (entered === correctPassword) {
+
+      // Step 1: Hide login screen, reveal the app
       loginContainer.style.display = "none";
-      document.body.querySelectorAll("body > *:not(#login-container)").forEach(el => el.style.display = "");
+      document.body
+        .querySelectorAll("body > *:not(#login-container)")
+        .forEach(el => el.style.display = "");
+
+      // Step 2: Show expiry warning if within 7 days ──────────────────────
+      const now      = new Date();
+      const daysLeft = Math.ceil((EXPIRY_DATE - now) / (1000 * 60 * 60 * 24));
+
+      if (daysLeft <= 7 && daysLeft > 0) {
+        const warning = document.createElement("div");
+        warning.style.cssText = `
+          position: fixed; bottom: 20px; right: 20px; z-index: 9998;
+          background: #fff3cd; border: 1px solid #ffc107;
+          padding: 12px 18px; border-radius: 8px;
+          font-size: 13px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        `;
+        warning.textContent = `⚠️ This app expires in ${daysLeft} day(s).`;
+        document.body.appendChild(warning);
+        setTimeout(() => warning.remove(), 8000); // auto-dismiss after 8s
+      }
+      // ────────────────────────────────────────────────────────────────────
+
     } else {
+
+      // Wrong password — show error, clear input, refocus
       errorMsg.style.display = "block";
-      passwordInput.value = "";
+      passwordInput.value    = "";
       passwordInput.focus();
     }
   }
 </script>
+
 <!--END LOG IN PASSWORD-->
 <!--*********************************************************************************-->
 <!--HTML BODY PAGE-->
@@ -549,7 +632,7 @@
 
             <div class="button-group">
                 <button id="computeBtn"><i class="fa-solid fa-plus"></i> Add Data</button>               
-                <img id="companyLogo" src="/c:/vin/Project_Volume_Calculator2/ASL-Logo.png" alt="Company Logo" style="display:none;">
+                <img id="companyLogo" src="/c:/vin/Project_Smartvolume/ASL-Logo.png" alt="Company Logo" style="display:none;">
                
             </div>
         </div>
@@ -700,35 +783,43 @@
         const qty = parseInt(qtyInput.value);
 
         if (!location) { alert('Please select a location!'); return; } // Validate location
-                    //old code
-                    //if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
-                    //  alert('Please select a valid item and enter a valid quantity!'); return; // Validate item
-                    //}
-        // New code
-        if (!itemName || IsNan(qty) || qty <= 0) { alert('Please select an item and enter a valid quantity!'); return; // Validate item
+            //------Old Code Start
+                //if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
+                //alert('Please select a valid item and enter a valid quantity!'); return; // Validate item
+                //}
+            //------Old Code End
 
-                  //old code                                                  
-                  //const fixedCbm = itemValues[itemName]; // Get item volume
-                  //const totalItemVolume = fixedCbm * qty; // Multiply by quantity
-        //New code Start 
-        // Get the value currently displayed in the editable input.
-        // This alloaws the user to override the default value.
-            const fixedCbm = parseFloat(itemValueE1.value};
-        //validate the edited value
-            if {isNan(fixedCbm) || fixedCbm <= 0) {
-              alert("Please enter a valid Item value.");
-              itemValueE1.focus();
+            //------New Code Start
+        if (!itemName || isNaN(qty) || qty <= 0) {alert("Please select an item and enter a valid quantity."); return; }
+            //------New Code End
+
+            //------Old code Start
+                //const fixedCbm = itemValues[itemName]; // Get item volume
+                //const totalItemVolume = fixedCbm * qty; // Multiply by quantity
+            //------Old code End
+
+        //-------New Code Start
+            // Get the value currently displayed in the editable input.
+            // This allows the user to override the default value.
+            const fixedCbm = parseFloat(itemValueEl.value);
+
+           // Validate the edited value
+            if (isNaN(fixedCbm) || fixedCbm <= 0) {
+              alert("Please enter a valid Item Value.");
+              itemValueEl.focus();
               return;
             }
-        // calculate total volume using the CURRENT value
+
+            // Calculate total volume using the CURRENT value
             const totalItemVolume = fixedCbm * qty;
-        //New Code End
-                
+        //-------New Code End
+
         count++; // Increment row number
         totalVolume += totalItemVolume; // Add to total volume
 
         // Create new row for table
-        const tr = document.createElement('tr');
+         const tr = document.createElement('tr');
+         
         tr.className = 'highlight'; // Highlight new row
         tr.innerHTML = `
           <td>${count}</td>
@@ -751,7 +842,7 @@
         // Reset inputs for next entry
         itemNameInput.value = '';
         qtyInput.value = 1;
-        itemValueEl.textContent = '—';
+        itemValueEl.value = ""; //itemValueEl.textContent = '—';
         const locationInput = document.getElementById('location');
         locationInput.value = '';
         locationInput.focus(); // Focus on location input
@@ -911,7 +1002,6 @@ document.getElementById("destination").textContent;
 
 </body>
 </html>
-
 
 
 
