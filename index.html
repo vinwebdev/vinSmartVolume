@@ -569,6 +569,7 @@
                             <th>Fixed Cbm (m³)</th>
                             <th>Qty</th>
                             <th>Volume (m³)</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody></tbody> <!-- Rows added dynamically -->
@@ -587,7 +588,7 @@
   <script>
     (function () {
       let count = 0; // Keeps track of row number
-      let totalVolume = 0; // Total cubic meter sum
+      let surveyItems = []; // Total cubic meter sum
 
       // Get references to HTML elements
       const computeBtn = document.getElementById('computeBtn');
@@ -699,13 +700,30 @@
         const qty = parseInt(qtyInput.value);
 
         if (!location) { alert('Please select a location!'); return; } // Validate location
-        if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
-          alert('Please select a valid item and enter a valid quantity!'); return; // Validate item
-        }
+                    //old code
+                    //if (!itemName || itemValues[itemName] === undefined || isNaN(qty) || qty <= 0) {
+                    //  alert('Please select a valid item and enter a valid quantity!'); return; // Validate item
+                    //}
+        // New code
+        if (!itemName || IsNan(qty) || qty <= 0) { alert('Please select an item and enter a valid quantity!'); return; // Validate item
 
-        const fixedCbm = itemValues[itemName]; // Get item volume
-        const totalItemVolume = fixedCbm * qty; // Multiply by quantity
-
+                  //old code                                                  
+                  //const fixedCbm = itemValues[itemName]; // Get item volume
+                  //const totalItemVolume = fixedCbm * qty; // Multiply by quantity
+        //New code Start 
+        // Get the value currently displayed in the editable input.
+        // This alloaws the user to override the default value.
+            const fixedCbm = parseFloat(itemValueE1.value};
+        //validate the edited value
+            if {isNan(fixedCbm) || fixedCbm <= 0) {
+              alert("Please enter a valid Item value.");
+              itemValueE1.focus();
+              return;
+            }
+        // calculate total volume using the CURRENT value
+            const totalItemVolume = fixedCbm * qty;
+        //New Code End
+                
         count++; // Increment row number
         totalVolume += totalItemVolume; // Add to total volume
 
