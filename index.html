@@ -412,7 +412,7 @@
 <script>
   // ===== Secure Login Script =====
 
-  const EXPIRY_DATE     = new Date("2026-07-03T23:59:59"); // ← update as needed
+  const EXPIRY_DATE     = new Date("2026-07-01T23:59:59"); // ← update as needed
   const correctPassword = "abc123";
 
   const loginContainer = document.getElementById("login-container");
@@ -479,7 +479,7 @@
         `;
         warning.textContent = `⚠️ This app expires in ${daysLeft} day(s).`;
         document.body.appendChild(warning);
-        setTimeout(() => warning.remove(), 8000); // auto-dismiss after 8s
+        setTimeout(() => warning.remove(), 15000); // auto-dismiss after 8s
       }
       // ────────────────────────────────────────────────────────────────────
 
