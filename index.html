@@ -412,7 +412,7 @@
 <script>
   // ===== Secure Login Script =====
 
-  const EXPIRY_DATE     = new Date("2026-07-01T23:59:59"); // ← update as needed
+  const EXPIRY_DATE     = new Date("2026-07-02T23:59:59"); // ← update as needed
   const correctPassword = "abc123";
 
   const loginContainer = document.getElementById("login-container");
@@ -477,9 +477,9 @@
           padding: 12px 18px; border-radius: 8px;
           font-size: 13px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         `;
-        warning.textContent = `⚠️ This app expires in ${daysLeft} day(s).`;
+        warning.textContent = `⚠️ This app expires in ${daysLeft} day(s). &#128222; - Marvin`;
         document.body.appendChild(warning);
-        setTimeout(() => warning.remove(), 15000); // auto-dismiss after 8s
+        setTimeout(() => warning.remove(), 20000); // auto-dismiss after 8s
       }
       // ────────────────────────────────────────────────────────────────────
 
